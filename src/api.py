@@ -13,7 +13,7 @@ class HHApi(BaseAPI):
         self.base_url = 'https://api.hh.ru/vacancies'
         self.headers = {'User-Agent': 'HH-User-Agent'}
         self.params = {
-            'per_page': 3
+            'per_page': 100
         }
 
     def get_vacancies(self, keyword):
