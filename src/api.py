@@ -11,16 +11,16 @@ class BaseAPI(ABC):
 class HHApi(BaseAPI):
     def __init__(self):
         self.base_url = 'https://api.hh.ru/vacancies'
+        self.headers = {'User-Agent': 'HH-User-Agent'}
         self.params = {
-            'per_page': 100
+            'per_page': 3
         }
 
     def get_vacancies(self, keyword):
         self.params.update({'text': keyword})
-        response = requests.get(self.base_url, params=self.params)
+        response = requests.get(self.base_url, headers=self.headers, params=self.params)
+        # print(response.json()['items'])
         return response.json()['items']
 
 
-if __name__ == '__main__':
-    api_requests = HHApi()
-    api_requests.get_vacancies('крановщик')
+
