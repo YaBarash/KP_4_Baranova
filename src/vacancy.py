@@ -17,15 +17,6 @@ class Vacancy:
                 self.salary_from = self.salary['from']
             if self.salary['to']:
                 self.salary_to = self.salary['to']
-            # if not self.salary['to']:
-            #     self.salary_to = self.salary_from
-
-        # if self.url is None:
-        #     self.url = 'Ссылка не найдена'
-        # if self.city is None:
-        #     self.city = 'Город не указан'
-        # if self.experience is None:
-        #     self.experience = 'Без опыта'
 
     @classmethod
     def create_vacancies(cls, data):
@@ -47,34 +38,30 @@ class Vacancy:
 
     @classmethod
     def filter_vacancies(cls, vacancies_list, keywords: list):
-        new_list_vacancies = []
+        filtered_vacancies_list = []
         for word in keywords:
             word_lower = word.lower()
             for vac in vacancies_list:
                 if word_lower in vac.name.lower().split():
-                    new_list_vacancies.append(vac)
-        return new_list_vacancies
+                    filtered_vacancies_list.append(vac)
+        return filtered_vacancies_list
 
     @classmethod
-    def get_vacancies_by_salary(cls, filtered_vacancies, salary_range):
-        pass
+    def sort_vacancies(cls, filtered_vacancies_list):
+        filtered_vacancies_list.sort(reverse=True)
+        return filtered_vacancies_list
 
-    def sort_vacancies(self):
-        pass
-
-    def get_top_vacancies(self, count):
-        pass
+    @classmethod
+    def get_top_vacancies(cls, sorted_vacancies_list, count_top: int):
+        return sorted_vacancies_list[:count_top]
 
 
 class JSONSaver:
     def __init__(self):
-        # path = os.path.abspath('../data')
         self.path = self.check_path()
-        # print(os.getcwd())
-        # print(os.path.abspath(os.path.join('data', 'vacancies.json')))
-        # print(os.path.abspath('../'))
 
-    def check_path(self):
+    @staticmethod
+    def check_path():
         path = os.path.abspath(os.path.join('data', 'vacancies.json'))
         if not os.path.exists(path):
             with open(path, 'w', encoding='utf-8') as file:
@@ -99,11 +86,6 @@ class JSONSaver:
         file_content: list[dict] = self.read_file()
         file_content.append(vac_info)
         self.write_file(file_content)
-        # for vac in file_content:
-        #     if vac_info['url'] != vac.get('url'):
-        #         self.write_file(file_content)
-        #     else:
-        #         print('Такой юрл уже есть')
 
     def delete_vacancy(self, data):
         file_content: list[dict] = self.read_file()
@@ -112,13 +94,3 @@ class JSONSaver:
                 del_vac = data
                 file_content.remove(del_vac)
 
-# f = Vacancy('крановшик', '', 10, 20, 'Москва', '')
-# j = JSONWorker('vacancies.json')
-# j.add_vacancy(f)
-
-# if __name__ == '__main__':
-#     os.chdir('..')
-#     vacancy = Vacancy('кладовщик', '', 10000, 70000)
-#     api_requests = JSONWorker()
-#     api_requests.add_vacancy(vacancy)
-#     print(api_requests.read_file())
