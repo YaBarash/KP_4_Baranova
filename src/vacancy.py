@@ -3,7 +3,7 @@ import os.path
 
 
 class Vacancy:
-    def __init__(self, name, url, salary):
+    def __init__(self, name, url, salary: dict):
         self.salary_to = 0
         self.salary_from = 0
         self.name = name
@@ -12,7 +12,7 @@ class Vacancy:
         self.validate()
 
     def validate(self):
-        if self.salary:
+        if self.salary and type(self.salary) is not int:
             if self.salary['from']:
                 self.salary_from = self.salary['from']
             if self.salary['to']:
@@ -34,7 +34,7 @@ class Vacancy:
             return self.salary_from < other.salary_from
 
     def __repr__(self):
-        return f'{self.name} с ЗП {self.salary_from} - {self.salary_to}'
+        return f'{self.name} с ЗП {self.salary_from} - {self.salary_to} ссылка {self.url}'
 
     @classmethod
     def filter_vacancies(cls, vacancies_list, keywords: list):
@@ -55,42 +55,6 @@ class Vacancy:
     def get_top_vacancies(cls, sorted_vacancies_list, count_top: int):
         return sorted_vacancies_list[:count_top]
 
-
-class JSONSaver:
-    def __init__(self):
-        self.path = self.check_path()
-
-    @staticmethod
-    def check_path():
-        path = os.path.abspath(os.path.join('data', 'vacancies.json'))
-        if not os.path.exists(path):
-            with open(path, 'w', encoding='utf-8') as file:
-                file.write('[]')
-        return path
-
-    def read_file(self):
-        with open(self.path) as file:
-            return json.load(file)
-
-    def write_file(self, data):
-        with open(self.path, 'w') as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-
-    def add_vacancy(self, vacancy: Vacancy):
-        vac_info = {
-            'name': vacancy.name,
-            'url': vacancy.url,
-            'salary_from': vacancy.salary_from,
-            'salary_to': vacancy.salary_to
-        }
-        file_content: list[dict] = self.read_file()
-        file_content.append(vac_info)
-        self.write_file(file_content)
-
-    def delete_vacancy(self, data):
-        file_content: list[dict] = self.read_file()
-        for vac in file_content:
-            if data in vac.keys():
-                del_vac = data
-                file_content.remove(del_vac)
-
+    def convert_to_dict(self):
+        convert = dict(name=self.name, url=self.url, salary_from=self.salary_from, salary_to=self.salary_to)
+        return convert
