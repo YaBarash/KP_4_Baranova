@@ -18,7 +18,8 @@ ___
 
 А также *дополнительная установка*:
 + Pytest==8.1.1 
-+ Pytest-cov==5.0.0
++ pytest-cov==5.0.0
++ coverage==7.4.4
 + requests~=2.31.0
 ___
 Программа содержит в себе 3 пакета - src, tests, data с модулями api.py, main.py, json_saver.py, vacancy.py, vacancies.json
