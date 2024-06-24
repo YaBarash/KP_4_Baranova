@@ -17,8 +17,8 @@ class HHApi(BaseAPI):
     Получает вакансии, подключаясь к API
     '''
     def __init__(self):
-        self.base_url = 'https://api.hh.ru/vacancies'
-        self.headers = {'User-Agent': 'HH-User-Agent'}
+        self._base_url = 'https://api.hh.ru/vacancies'
+        self._headers = {'User-Agent': 'HH-User-Agent'}
         self.params = {
             'per_page': 100
         }
@@ -28,7 +28,7 @@ class HHApi(BaseAPI):
         Функция получения вакансий через запрос пользователя по полученному слову keyword
         '''
         self.params.update({'text': keyword})
-        response = requests.get(self.base_url, headers=self.headers, params=self.params)
+        response = requests.get(self._base_url, headers=self._headers, params=self.params)
         return response.json()['items']
 
 
