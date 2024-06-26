@@ -8,19 +8,19 @@ class JSONAbstract(ABC):
     Абстрактный класс для работы с файлами
     '''
 
-    @staticmethod
-    def check_pass():
-        pass
-
+    @abstractmethod
     def read_file(self):
         pass
 
+    @abstractmethod
     def write_file(self, data):
         pass
 
+    @abstractmethod
     def add_vacancy(self, vacancy: Vacancy):
         pass
 
+    @abstractmethod
     def delete_vacancy(self, vacancy: Vacancy):
         pass
 
